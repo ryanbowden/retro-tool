@@ -2,7 +2,7 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="style.css" />
 		<style>
-			*{
+*{
   margin:0;
   padding:0;
 }
@@ -12,13 +12,14 @@ body{
   font-size:100%;
   background:#666;
   color:#fff;
+  padding: 10px 50px;
 }
 
 ul,li{
   list-style:none;
 }
 
-ul li, .draggable {
+#retro ul li, .draggable {
   margin:1em;
   float:left;
   color:#000;
@@ -31,7 +32,7 @@ ul li, .draggable {
   position: relative;
 }
 
-ul li .plus{
+#retro ul li .plus{
   position: absolute;
   bottom:0px;
   right:0px;
@@ -74,7 +75,7 @@ h1, h2 {
   margin: 10px;
 }
 
-li .votes{
+#retro li .votes{
   position: absolute;
   left:0;
   bottom:0;
@@ -92,6 +93,29 @@ li .votes{
   flex-wrap: wrap;
   align-items: stretch;
   justify-content: center;
+}
+
+#retro{
+  display: none;
+}
+
+#joinretro{
+  margin: 10px 20px 10px 0;
+  float: left;
+}
+
+#joinretro li{
+  padding: 5px 20px;
+  background-color: #454545;
+  margin: 5px 0;
+  font-size: 24px;
+}
+
+.new-retro{
+  clear:both;
+  border: 4px dotted #999;
+  margin: 10px 0;
+  padding: 1em;
 }
 		</style>
         <script src="/socket.io/socket.io.js"></script>
