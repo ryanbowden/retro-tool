@@ -1,24 +1,30 @@
+//'use strict';
+
 var express = require('express');
+const socketIO = require('socket.io');
+const path = require('path');
+
+const PORT = process.env.PORT || 3000;
+const INDEX = path.join(__dirname, '/public/index.html');
+
+var express = require('express'),app = express();
+app.use(express.static(path.join(__dirname, 'public')));
+
+const server = express()
+   .use((req, res) => res.sendFile(INDEX) )
+   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
+const io = socketIO(server);
+
 var app = express();
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
 
-app.get('/style.css', function (req, res) {
-  res.sendFile( __dirname + "/public/" + "style.css" );
-})
-
-app.get('/client.js', function (req, res) {
-  res.sendFile( __dirname + "/public/" + "client.js" );
-})
-
-app.get('/', function (req, res) {
-  res.sendFile( __dirname + "/public/" + "index.html" );
-})
 
 var showResults = false
 var retros = [];
 var cards = [];
 var users = [];
+
 
 
 io.on('connection', function(socket){
@@ -30,6 +36,7 @@ io.on('connection', function(socket){
     var json = JSON.stringify({ type: 'retros', text: item.name, id: i.toString()  });
     console.log("Sending to clients: " + json);
     io.emit('retros', json);
+
   }
 
   // console.log('Client Connected');
@@ -106,9 +113,9 @@ io.on('connection', function(socket){
   });
 });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
-});
+// http.listen(3000, function(){
+//   console.log('listening on *:3000');
+// });
 
 function updatedCategory(id, category){
   cards[id].category = category;
