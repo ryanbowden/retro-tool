@@ -1,22 +1,21 @@
-//'use strict';
+'use strict';
 
 var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+
 const socketIO = require('socket.io');
 const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 const INDEX = path.join(__dirname, '/public/index.html');
 
-var express = require('express'),app = express();
-app.use(express.static(path.join(__dirname, 'public')));
-
 const server = express()
-   .use((req, res) => res.sendFile(INDEX) )
-   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+    .use((req, res) => res.sendFile(INDEX) )
+    .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const io = socketIO(server);
 
-var app = express();
 var http = require('http').Server(app);
 
 
@@ -35,20 +34,9 @@ io.on('connection', function(socket){
     var item = retros[i];
     var json = JSON.stringify({ type: 'retros', text: item.name, id: i.toString()  });
     console.log("Sending to clients: " + json);
-    io.emit('retros', json);
+    io.emit('retro card', json);
 
   }
-
-  // console.log('Client Connected');
-  // for(var i=0; i<cards.length; i++) {
-  //     var item = cards[i];
-  //     var json = JSON.stringify({ text: item.name, category: item.category, id: i, votes: item.votes });
-  //     console.log("Sending to clients: " + json);
-  //     io.emit('retro card', json);
-  //     json = JSON.stringify({type: 'showresults'});
-  //     console.log("Sending to clients: " + json);
-  //     io.emit('retro card', json);
-  // }
 
   socket.on('retro card', function(msg){
     console.log("Received: " + msg);
@@ -59,6 +47,12 @@ io.on('connection', function(socket){
       switch (obj.type) {
         case 'updatecategory':
           updatedCategory(obj.id, obj.category);
+          break;
+        case 'add-retro':
+          addRetro(obj.name,socket);
+          break;
+        case 'selected-retro':
+          selectRetro(obj.id,socket);
           break;
       
         default:
@@ -113,9 +107,6 @@ io.on('connection', function(socket){
   });
 });
 
-// http.listen(3000, function(){
-//   console.log('listening on *:3000');
-// });
 
 function updatedCategory(id, category){
   cards[id].category = category;
@@ -128,8 +119,30 @@ function updatedCategory(id, category){
 
 }
 
-
 function addCardToArray(text, category){
   cards.push({name: text, category: category, votes: 0 });
   return cards.length-1;  
+}
+
+
+function addRetro(text, socket){
+  retros.push({name: text});
+  var i = retros.length-1;
+
+  var json = JSON.stringify({ type: 'retros', text: text, id: i.toString()  });
+
+  io.emit('retro card', json);
+  return retros.length-1;  
+}
+
+function selectRetro(id,socket){
+  for(var i=0; i<cards.length; i++) {
+      var item = cards[i];
+      console.log(item);
+      if(item.retro == id){
+        var json = JSON.stringify({ text: item.name, category: item.category, id: i, votes: item.votes });
+        console.log("Sending to clients: " + json);
+        io.emit('retro card', json);
+      }
+  }
 }

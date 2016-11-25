@@ -3,6 +3,7 @@ var socket = io();
 var categories = ["What went well?", "What could have gone better?"];
 
 var showResultsAlways = false;
+var retroID;
 
 $(function(){
 	categories.forEach(function(category) {
@@ -63,9 +64,18 @@ $(function(){
 		}
 	});
 
+	$('#addretro').on('submit',function(e){
+		e.preventDefault();
+		var text = $("#retro-name").val();
+		$("#retro-name").val("");
+
+		var json = JSON.stringify({ type: 'add-retro', name: text });
+		socket.emit('retro card', json);
+	});
+
 	$(".showresults").on('click',function(){
 		var json = JSON.stringify({ showResults: true });
-		socket.send(json);
+		socket.emit('retro card', json);
 	});
 });
 
@@ -88,6 +98,9 @@ socket.on('retro card',function(msg){
 			case 'showresults':
 			showResultsAlways = true;
 				showResults();
+				break;
+			case 'retros':
+				addRetrosToPage(obj,socket);
 				break;
 		
 			default:
@@ -126,5 +139,26 @@ function showResults(){
 
 		var votes = $(this).data().votes;
 		$(this).append('<span class="votes">'+votes+'</span>');
+	});
+}
+
+
+function addRetrosToPage(retro,socket){
+	var id = retro.id;
+	$("#joinretro").append(
+		$('<li>').text(retro.text).data('id',id)
+	);
+	setRetroClickEvent(socket);
+}
+
+
+function setRetroClickEvent(socket){
+	$("ul#joinretro li").off('click');
+	$("ul#joinretro li").on('click',function(){
+		retroID = $(this).data('id');
+		$('#welcome').hide();
+		$('#retro').show();
+		var json = JSON.stringify({type: 'selected-retro', id: retroID });
+		socket.emit('retro card', json);
 	});
 }
