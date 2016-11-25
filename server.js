@@ -1,19 +1,32 @@
 var express = require('express');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
 
-app.get('/style.css', function (req, res) {
-  res.sendFile( __dirname + "/public/" + "style.css" );
-})
+const socketIO = require('socket.io');
+const path = require('path');
 
-app.get('/client.js', function (req, res) {
-  res.sendFile( __dirname + "/public/" + "client.js" );
-})
+const PORT = process.env.PORT || 3000;
+const INDEX = path.join(__dirname, 'index.html');
 
-app.get('/', function (req, res) {
-  res.sendFile( __dirname + "/public/" + "index.html" );
-})
+const server = express()
+  .use((req, res) => res.sendFile(INDEX) )
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
+const io = socketIO(server);
+
+// var app = express();
+// var http = require('http').Server(app);
+// var io = require('socket.io')(http);
+
+// app.get('/style.css', function (req, res) {
+//   res.sendFile( __dirname + "/public/" + "style.css" );
+// })
+
+// app.get('/client.js', function (req, res) {
+//   res.sendFile( __dirname + "/public/" + "client.js" );
+// })
+
+// app.get('/', function (req, res) {
+//   res.sendFile( __dirname + "/public/" + "index.html" );
+// })
 
 var showResults = false
 var cards = [];
