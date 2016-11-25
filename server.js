@@ -1,38 +1,30 @@
-var express = require('express');
+//'use strict';
 
+var express = require('express');
 const socketIO = require('socket.io');
 const path = require('path');
 
 const PORT = process.env.PORT || 3000;
-const INDEX = path.join(__dirname, 'index.html');
+const INDEX = path.join(__dirname, '/public/index.html');
+
+var express = require('express'),app = express();
+app.use(express.static(path.join(__dirname, 'public')));
 
 const server = express()
-  .use((req, res) => res.sendFile(INDEX) )
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+   .use((req, res) => res.sendFile(INDEX) )
+   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 const io = socketIO(server);
 
-// var app = express();
-// var http = require('http').Server(app);
-// var io = require('socket.io')(http);
+var app = express();
+var http = require('http').Server(app);
 
-// app.get('/style.css', function (req, res) {
-//   res.sendFile( __dirname + "/public/" + "style.css" );
-// })
-
-// app.get('/client.js', function (req, res) {
-//   res.sendFile( __dirname + "/public/" + "client.js" );
-// })
-
-// app.get('/', function (req, res) {
-//   res.sendFile( __dirname + "/public/" + "index.html" );
-// })
 
 var showResults = false
 var cards = [];
 
 
-io.on('connection', function(socket){
+io.on('connection', (socket) => {
   console.log('Client Connected');
   for(var i=0; i<cards.length; i++) {
       var item = cards[i];
@@ -107,9 +99,9 @@ io.on('connection', function(socket){
   });
 });
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
-});
+// http.listen(3000, function(){
+//   console.log('listening on *:3000');
+// });
 
 function updatedCategory(id, category){
   cards[id].category = category;
