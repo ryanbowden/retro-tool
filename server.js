@@ -16,20 +16,32 @@ app.get('/', function (req, res) {
 })
 
 var showResults = false
+var retros = [];
 var cards = [];
+var users = [];
 
 
 io.on('connection', function(socket){
-  console.log('Client Connected');
-  for(var i=0; i<cards.length; i++) {
-      var item = cards[i];
-      var json = JSON.stringify({ text: item.name, category: item.category, id: i, votes: item.votes });
-      console.log("Sending to clients: " + json);
-      io.emit('retro card', json);
-      json = JSON.stringify({type: 'showresults'});
-      console.log("Sending to clients: " + json);
-      io.emit('retro card', json);
+
+  //send the user the retro that are in use
+
+  for(var i=0; i<retros.length; i++){
+    var item = retros[i];
+    var json = JSON.stringify({ type: 'retros', text: item.name, id: i.toString()  });
+    console.log("Sending to clients: " + json);
+    io.emit('retros', json);
   }
+
+  // console.log('Client Connected');
+  // for(var i=0; i<cards.length; i++) {
+  //     var item = cards[i];
+  //     var json = JSON.stringify({ text: item.name, category: item.category, id: i, votes: item.votes });
+  //     console.log("Sending to clients: " + json);
+  //     io.emit('retro card', json);
+  //     json = JSON.stringify({type: 'showresults'});
+  //     console.log("Sending to clients: " + json);
+  //     io.emit('retro card', json);
+  // }
 
   socket.on('retro card', function(msg){
     console.log("Received: " + msg);
