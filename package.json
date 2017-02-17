@@ -1,6 +1,9 @@
 {
-  "dependencies": {
-    "express": "^4.14.1",
-    "socket.io": "^1.7.3"
-  }
+    "name": "digital-retro-tool",
+    "version": "0.0.1",
+    "Description": "A Digital Retro Tool",
+    "dependencies": {
+        "express": "^4.14.1",
+        "socket.io": "^1.7.3"
+    }
 }
