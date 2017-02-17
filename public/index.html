@@ -1,11 +1,28 @@
 <html>
-<head></head>
-
-<body>
-  <div id="message"></div>
-
+<head>
   <script src="/socket.io/socket.io.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <title>Digital Retro Tool</title>
   <link rel="stylesheet" href="/css">
+</head>
+<body>
+  <div class="green-button showresults">Show results</div>
+		<h1>Retro</h1>
+
+		<div id="wall">
+		</div>
+
+		<div id="sidebar">
+			<form>
+				<input id="description" type="text" />
+				<input type="submit" id="add" value="Add">
+			</form>	
+
+			<ul id="myitems">
+			</ul>
+		</div>
+  
   <script>
     var socket = io();
 
