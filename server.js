@@ -1,32 +1,16 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var express = require('express');
+const socketIO = require('socket.io');
+const path = require('path');
 
-app.get('/', function(req, res){
-  //send the index.html file for all requests
-  res.sendFile(__dirname + '/public/index.html');
-});
+const PORT = process.env.PORT || 3000;
+const INDEX = path.join(__dirname, '/public/index.html');
 
-app.get('/css', function(req, res){
-  //send the index.html file for all requests
-  res.sendFile(__dirname + '/public/css/styles.css');
-});
+var express = require('express');
+var app = express();
+app.use(express.static(__dirname + '/public'));
 
-http.listen(3001, function(){
+const server = express()
+   .use((req, res) => res.sendFile(INDEX) )
+   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-  console.log('listening on *:3001');
-
-});
-
-//for testing, we're just going to send data to the client every second
-setInterval( function() {
-
-  /*
-    our message we want to send to the client: in this case it's just a random
-    number that we generate on the server
-  */
-  var msg = Math.random();
-  io.emit('message', msg);
-  console.log (msg);
-
-}, 1000);
+const io = socketIO(server);
