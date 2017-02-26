@@ -56,9 +56,9 @@ ul li, .draggable {
   color:#000;
   background:#FFC62F;
   display:block;
-  height:10em;
-  width:10em;
-  padding: 1em;
+  height:15em;
+  width:15em;
+  padding: 0.2em;
   overflow: hidden;
   position: relative;
 }
