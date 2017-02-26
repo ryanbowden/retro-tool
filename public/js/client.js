@@ -2,46 +2,30 @@ var socket = io();
 var categories = ['What went well?', 'What could have gone better'];
 var showResultsAlways = false;
 
-$(function(){
-    categories.forEach(function(category) {
-		$("#wall").append(
-			$("<div>").addClass("category").attr("id", hyphenate(category))
-			.append($("<h2>").text(category))
-			.append($("<ul>"))
-		);
-	});
+function addCardToBoard(id,text){
+	//Check card is not already on that page
+	$("#myitems").append(
+		$("<li>")
+		.data('id',id)
+		.addClass("draggable")
+		.text(text)
+	);
+}
+
+$(function () {
+	$('form').on('submit', function (e) {
+		e.preventDefault();
+		var text = $("#description").val();
+		if (text == '') {
+			return;
+		}
+
+		socket.emit('retro card', text);
+	})
 });
 
-socket.on('retro card',function(msg){
-	var json = msg;
-	var obj = JSON.parse(json);
-
-	if(typeof obj.type != 'undefined'){
-		switch (obj.type) {
-			case 'showresults':
-			showResultsAlways = true;
-				showResults();
-				break;
-		
-			default:
-				showResults();
-				break;
-		}
-	}
-
-	if(typeof obj.text == 'undefined'){
-		$("#"+obj.id).data('votes',obj.votes);
-		if(showResultsAlways){
-			showResults();
-		}
-		return;
-	}
-
-	$("#"+obj.id).remove();
-
-  	$("#"+obj.category+" ul").append(
-		$("<li>").text(obj.text).attr('id', obj.id).data('votes', obj.votes).draggable({ revert: true, zIndex: 100 })
-		.append('<span class="plus"></span>')
-	);
-	setTimeout ( "setVoteEvent()", 100 );
-})
+//Listner for when a new card is added to the board
+socket.on('new card', function (data) {
+	addCardToBoard(data.id,data.content);
+	console.log(data.content);
+});

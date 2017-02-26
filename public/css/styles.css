@@ -6,8 +6,44 @@
 body{
   font-family:arial,sans-serif;
   font-size:100%;
-  background:#666;
-  color:#fff;
+  background:#fff;
+  color:#000;
+  margin:0 10px;
+}
+
+svg{
+  float: left;
+  margin: 10px 0 0 20px;
+}
+
+form{
+  float: right;
+  margin: 30px 20px;
+}
+
+form label{
+  float: left;
+  font-size: 18px;
+  font-weight:bold;
+}
+
+form #description{
+  float: left;
+  clear: left;
+  width: 300px;
+  height: 100px;
+}
+
+form #add{
+  float: left;
+  clear: left;
+  background-color: #42145F;
+  margin-top: 5px;
+  border-radius: 5px;
+  color: #fff;
+  border:0;
+  padding: 5px 10px;
+  cursor:  pointer;
 }
 
 ul,li{
@@ -18,7 +54,7 @@ ul li, .draggable {
   margin:1em;
   float:left;
   color:#000;
-  background:#ffc;
+  background:#FFC62F;
   display:block;
   height:10em;
   width:10em;
@@ -27,25 +63,21 @@ ul li, .draggable {
   position: relative;
 }
 
-ul li .plus{
-  position: absolute;
-  bottom:0px;
-  right:0px;
-  background-image: url('images/plus.svg');
-  background-size: 100%;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
+ul li:nth-of-type(5n+1){
+  background-color: #00AFAA;
+}
+ul li:nth-of-type(5n+2){
+  background-color: #0089CF;
+}
+ul li:nth-of-type(5n+3){
+  background-color: #9ACA3C;
+}
+ul li:nth-of-type(5n+4){
+  background-color: #F36C24;
 }
 
 input, button {
 	padding: 3px;
-}
-
-#wall {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
 }
 
 .category {
@@ -78,9 +110,13 @@ li .votes{
 }
 
 #sidebar {
+  float: left;
+  clear: both;
   border: 4px dotted #999;
-  margin: 10px;
+  margin: 10px auto;
+  width: 100%;
   padding: 1em;
+  box-sizing: border-box;
 }
 
 #myitems, .category ul {
