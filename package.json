@@ -1,9 +1,11 @@
 {
-    "name": "digital-retro-tool",
-    "version": "0.0.1",
-    "Description": "A Digital Retro Tool",
-    "dependencies": {
-        "express": "^4.14.1",
-        "socket.io": "^1.7.3"
-    }
+  "name": "digital-retro-tool",
+  "version": "0.0.1",
+  "description": "A Digital Retro Tool",
+  "dependencies": {
+    "express": "^4.14.1",
+    "html-entities": "^1.2.0",
+    "mysql": "^2.13.0",
+    "socket.io": "^1.7.3"
+  }
 }
