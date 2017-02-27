@@ -6,10 +6,10 @@ entities = new Entities();
 
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'X6tlrkLy',
-    database: 'esendex-retro'
+    host: process.env.SQLHOST,
+    user: process.env.SQLUSER,
+    password: process.env.SQLPassword,
+    database: process.env.SQLDB
 });
 
 
