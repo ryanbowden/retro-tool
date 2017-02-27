@@ -5,11 +5,17 @@ var Entities = require('html-entities').XmlEntities;
 entities = new Entities();
 
 var mysql = require('mysql');
+var host = process.env.SQLHOST,
+    user = process.env.SQLUSER,
+    password = process.env.SQLUSER,
+    db = process.env.SQLDB;
+
+console.log(user);
 var connection = mysql.createConnection({
-    host: process.env.SQLHOST,
-    user: process.env.SQLUSER,
-    password: process.env.SQLPassword,
-    database: process.env.SQLDB
+    host: host,
+    user: user,
+    password: password,
+    database: db
 });
 
 
