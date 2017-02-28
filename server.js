@@ -7,7 +7,7 @@ entities = new Entities();
 var mysql = require('mysql');
 var host = process.env.SQLHOST,
     user = process.env.SQLUSER,
-    password = process.env.SQLUSER,
+    password = process.env.SQLPW,
     db = process.env.SQLDB;
 
 console.log(user);
