@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "A Digital Retro Tool",
   "dependencies": {
+    "encode-html": "^1.0.1",
     "express": "^4.14.1",
     "html-entities": "^1.2.0",
     "mysql": "^2.13.0",

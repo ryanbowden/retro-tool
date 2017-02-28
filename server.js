@@ -1,8 +1,7 @@
 var express = require('express');
 const socketIO = require('socket.io');
 const path = require('path');
-var Entities = require('html-entities').XmlEntities;
-entities = new Entities();
+var encode = require('encode-html');
 
 var mysql = require('mysql');
 var host = process.env.SQLHOST,
@@ -50,7 +49,7 @@ io.on('connection', function (socket) {
     //monitor when a card gets sent in
     socket.on('retro card', function (text) {
         //clean up the input
-        text = entities.encodeNonUTF(text);
+        text = encode(text);
 
         //Reduce string to 1500 charaters
         text = text.substring(0, 1000);
