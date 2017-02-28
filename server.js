@@ -10,12 +10,12 @@ var host = process.env.SQLHOST,
     password = process.env.SQLPW,
     db = process.env.SQLDB;
 
-console.log(user);
-var connection = mysql.createConnection({
-    host: host,
-    user: user,
-    password: password,
-    database: db
+var pool  = mysql.createPool({
+  connectionLimit : 10,
+  host            : host,
+  user            : user,
+  password        : password,
+  database        : db
 });
 
 
@@ -32,18 +32,11 @@ const server = express()
 
 const io = socketIO(server);
 
-connection.connect(function (err) {
-    if (err) {
-        console.error('error connecting: ' + err.stack);
-        return;
-    }
-
-    console.log('connected as id ' + connection.threadId);
-});
 
 io.on('connection', function (socket) {
+
     //On a new connection need to send a user all the files required to make this work correctly 
-    var query = connection.query('SELECT * FROM cards');
+    var query = pool.query('SELECT * FROM cards');
     query
         .on('result', function (row) {
             // Pausing the connnection is useful if your processing involves I/O 
@@ -65,7 +58,7 @@ io.on('connection', function (socket) {
         
 
         //Save card in the database
-        connection.query('INSERT INTO cards SET ?', { content: text }, function (error, results, fields) {
+        pool.query('INSERT INTO cards SET ?', { content: text }, function (error, results, fields) {
             if (error) throw error;
             console.log(results.insertId);
             io.sockets.emit('new card', {
@@ -73,6 +66,7 @@ io.on('connection', function (socket) {
                 content: text
             });
         });
+        
 
         console.log(text);
     });
