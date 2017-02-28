@@ -8,13 +8,16 @@ function addCardToBoard(id,text){
 		$("<li>")
 		.data('id',id)
 		.addClass("draggable")
-		.text(text)
+		.html(text)
 	);
 }
 
 $(function () {
 	$('form').on('submit', function (e) {
 		e.preventDefault();
+		if (!window.confirm("Are you sure you want to post this?")) {
+			return;
+		}
 		var text = $("#description").val();
 		if (text == '') {
 			return;
