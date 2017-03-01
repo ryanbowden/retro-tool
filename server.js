@@ -38,13 +38,12 @@ io.on('connection', function (socket) {
     var query = pool.query('SELECT * FROM cards');
     query
         .on('result', function (row) {
-            // Pausing the connnection is useful if your processing involves I/O 
-            console.log(row);
             socket.emit('new card',{
                 id: row.id,
                 content: row.content
             })
         })
+    console.log("Sent start up data to users");
 
     //monitor when a card gets sent in
     socket.on('retro card', function (text) {
@@ -59,7 +58,7 @@ io.on('connection', function (socket) {
         //Save card in the database
         pool.query('INSERT INTO cards SET ?', { content: text }, function (error, results, fields) {
             if (error) throw error;
-            console.log(results.insertId);
+            console.log("Inserted row: "+results.insertId);
             io.sockets.emit('new card', {
                 id: results.insertId,
                 content: text
@@ -67,6 +66,6 @@ io.on('connection', function (socket) {
         });
         
 
-        console.log(text);
+        console.log("Card added with data:"+text);
     });
 });
