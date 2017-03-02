@@ -73,7 +73,7 @@ ul li, .draggable {
   overflow-y : auto;
   overflow-x: hidden;
   position: relative;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 ul li:nth-of-type(4n+1) {
