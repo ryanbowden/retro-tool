@@ -53,6 +53,9 @@ $(function () {
 			return;
 		}
 
+		$("input[type=text]").val("");
+		$("html, body").animate({ scrollTop: $(document).height() }, 1000);
+
 		//TODO: Make sure the text is below the limit the database can handle
 
 		//Send the text to the server so the card can be added to the board
