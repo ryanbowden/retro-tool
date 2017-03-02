@@ -48,7 +48,7 @@ $(function () {
 			return;
 		}
 		//Get the message and check it is not empty
-		var text = trim($("#description").val());
+		var text = $.trim($("#description").val());
 		if (text == '') {
 			return;
 		}
