@@ -54,28 +54,28 @@ io.on('connection', function (socket) {
     /**
      * Set up a watch for new retro cards coming in from users
      */
-    socket.on('retro card', function (text) {
-        /**
-         * Encode the text for secuirty reasons make sure the user trying not in inject stuff to the site
-         */
-        text = encode(text);
+    // socket.on('retro card', function (text) {
+    //     /**
+    //      * Encode the text for secuirty reasons make sure the user trying not in inject stuff to the site
+    //      */
+    //     text = encode(text);
 
-        /**
-         * The database can only support 3000 charaters so need to make sure we do not try and put to much in there
-         */
-        text = text.substring(0, 25000);
+    //     /**
+    //      * The database can only support 3000 charaters so need to make sure we do not try and put to much in there
+    //      */
+    //     text = text.substring(0, 25000);
 
-        /**
-         * Need to save this on the database and then emit the data to every client that is connected to make sure everyone see the new cards being added
-         */
-        pool.query('INSERT INTO cards SET ?', { content: text }, function (error, results, fields) {
-            if (error) throw error;
-            console.log("Inserted row: "+results.insertId);
-            io.sockets.emit('new card', {
-                id: results.insertId,
-                content: text
-            });
-            console.log("Card added with data: "+text);
-        });
-    });
+    //     /**
+    //      * Need to save this on the database and then emit the data to every client that is connected to make sure everyone see the new cards being added
+    //      */
+    //     pool.query('INSERT INTO cards SET ?', { content: text }, function (error, results, fields) {
+    //         if (error) throw error;
+    //         console.log("Inserted row: "+results.insertId);
+    //         io.sockets.emit('new card', {
+    //             id: results.insertId,
+    //             content: text
+    //         });
+    //         console.log("Card added with data: "+text);
+    //     });
+    // });
 });
