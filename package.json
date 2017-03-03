@@ -1,13 +1,12 @@
 {
-  "name": "socket-chat-example",
+  "name": "digital-retro-tool",
   "version": "0.0.1",
-  "description": "my first socket.io app",
+  "description": "A Digital Retro Tool",
   "dependencies": {
-    "express": "4.14.0",
-    "redis": "^2.6.5",
-    "socket.io": "1.6.0"
-  },
-  "scripts": {
-    "start": "node server.js"
+    "encode-html": "^1.0.1",
+    "express": "^4.14.1",
+    "html-entities": "^1.2.0",
+    "mysql": "^2.13.0",
+    "socket.io": "^1.7.3"
   }
 }

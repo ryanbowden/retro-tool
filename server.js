@@ -1,121 +1,81 @@
-//'use strict';
-
+//Require the following modules
 var express = require('express');
 const socketIO = require('socket.io');
 const path = require('path');
+var encode = require('encode-html');
+var mysql = require('mysql');
+var express = require('express');
 
+//Create a pool of MySql connections
+/**
+ *  Create a pool of MySQL connections
+ *  A pool of connections makes sure we can deal with multiple of queries at a time.
+ */
+var pool  = mysql.createPool({
+  connectionLimit : 10,
+  host            : process.env.SQLHOST,
+  user            : process.env.SQLUSER,
+  password        : process.env.SQLPW,
+  database        : process.env.SQLDB
+});
+
+/**
+ * Set up the connection port and what the index file should be
+ */
 const PORT = process.env.PORT || 3000;
 const INDEX = path.join(__dirname, '/public/index.html');
 
-var express = require('express'),app = express();
-app.use(express.static(path.join(__dirname, 'public')));
-
-const server = express()
-   .use((req, res) => res.sendFile(INDEX) )
-   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
-
-const io = socketIO(server);
-
+/**
+ * Start up express and set up the index page and where the static files live
+ */
 var app = express();
-var http = require('http').Server(app);
+const server = express()
+    .get('/', function (req, res) { res.sendFile(INDEX) })
+    .use(express.static(__dirname + '/public'))
+    .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
+/**
+ * Start up socket IO server a watch for a new connection
+ */
+const io = socketIO(server);
+io.on('connection', function (socket) {
 
-var showResults = false
-var cards = [];
+    //On a new connection need to send a user all the files required to make this work correctly 
+    var query = pool.query('SELECT * FROM cards');
+    query
+        .on('result', function (row) {
+            socket.emit('new card',{
+                id: row.id,
+                content: row.content
+            })
+        })
+    console.log("Sent start up data to users");
 
+    /**
+     * Set up a watch for new retro cards coming in from users
+     */
+    // socket.on('retro card', function (text) {
+    //     /**
+    //      * Encode the text for secuirty reasons make sure the user trying not in inject stuff to the site
+    //      */
+    //     text = encode(text);
 
-io.on('connection', (socket) => {
-  console.log('Client Connected');
-  for(var i=0; i<cards.length; i++) {
-      var item = cards[i];
-      var json = JSON.stringify({ text: item.name, category: item.category, id: i, votes: item.votes });
-      console.log("Sending to clients: " + json);
-      io.emit('retro card', json);
-      json = JSON.stringify({type: 'showresults'});
-      console.log("Sending to clients: " + json);
-      io.emit('retro card', json);
-  }
+    //     /**
+    //      * The database can only support 3000 charaters so need to make sure we do not try and put to much in there
+    //      */
+    //     text = text.substring(0, 25000);
 
-  socket.on('retro card', function(msg){
-    console.log("Received: " + msg);
-
-    var obj = JSON.parse(msg);
-
-    if(typeof obj.type != 'undefined'){
-      switch (obj.type) {
-        case 'updatecategory':
-          updatedCategory(obj.id, obj.category);
-          break;
-      
-        default:
-          break;
-      }
-
-      return;
-    }
-
-    if(typeof obj.showResults != 'undefined'){
-      var json = JSON.stringify({type: 'showresults'});
-      console.log("Sending to clients: " + json);
-      io.emit('retro card', json);
-    }
-
-    //If a vote feature
-    if(typeof obj.voted != 'undefined'){
-      var id = obj.id;
-      console.log(obj.voted + ' = '+ cards[id].votes);
-
-      votes = cards[id].votes + 1;
-
-      cards[id].votes = votes;
-
-      var json = JSON.stringify({id: id, votes: votes });
-      console.log("Sending to clients: " + json);
-      io.emit('retro card', json);
-
-      return;
-    }
-
-    //work out what the user sent to us
-    if(typeof obj.text != 'undefined'){
-      var text = obj.text;
-      var category = obj.category;
-      var id = obj.id;
-      var votes = 0;
-
-      if (typeof id == 'undefined') {
-        id = addCardToArray(text, category);
-      } else {
-        cards[id] = {name: text, category: category};
-      }
-
-      var json = JSON.stringify({ text: text, category: category, id: id, votes: votes });
-      console.log("Sending to clients: " + json);
-      io.emit('retro card', json);
-    }
-  });
-  socket.on('disconnect', function(){
-    console.log('Client Disconnected');
-  });
+    //     /**
+    //      * Need to save this on the database and then emit the data to every client that is connected to make sure everyone see the new cards being added
+    //      */
+    //     pool.query('INSERT INTO cards SET ?', { content: text }, function (error, results, fields) {
+    //         if (error) throw error;
+    //         console.log("Inserted row: "+results.insertId);
+    //         io.sockets.emit('new card', {
+    //             id: results.insertId,
+    //             content: text
+    //         });
+    //         console.log("Card added with data: "+text);
+    //     });
+    // });
 });
-
-// http.listen(3000, function(){
-//   console.log('listening on *:3000');
-// });
-
-function updatedCategory(id, category){
-  cards[id].category = category;
-  var text = cards[id].name;
-  var votes = cards[id].votes;
-
-  var json = JSON.stringify({ text: text, category: category, id: id, votes: votes });
-  console.log("Sending to clients: " + json);
-  io.emit('retro card', json);
-
-}
-
-
-function addCardToArray(text, category){
-  cards.push({name: text, category: category, votes: 0 });
-  return cards.length-1;  
-}

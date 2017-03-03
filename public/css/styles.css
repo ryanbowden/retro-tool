@@ -1,0 +1,189 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Lato", "Arial", sans-serif;
+  font-size: 100%;
+  background: #fff;
+  color: #000;
+  margin: 0 10px;
+}
+
+svg {
+  float: left;
+  margin: 10px 0 0 0;
+}
+
+form {
+  border: 1px solid #666;
+  float: right;
+  clear: right;
+  border-radius: 5px;
+  margin: 5px 0px;
+  padding: 5px 10px;
+}
+
+form label {
+  float: left;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+form #description {
+  float: left;
+  clear: left;
+  width: 300px;
+  margin: 10px 0;
+}
+
+form #add {
+  float: left;
+  clear: left;
+  background-color: #42145F;
+  margin-top: 5px;
+  border-radius: 5px;
+  color: #fff;
+  border: 0;
+  padding: 10px 40px;
+  cursor: pointer;
+}
+
+h1 {
+  float: left;
+  clear: left;
+  margin-top: 15px;
+  color: #454545;
+}
+
+ul, li {
+  list-style: none;
+}
+
+ul li, .draggable {
+  margin: 0.2em;
+  float: left;
+  color: #000;
+  background: #FFC62F;
+  display: block;
+  height: 15em;
+  width: 20em;
+  padding: 0.5em;
+  overflow-y : auto;
+  overflow-x: hidden;
+  position: relative;
+  word-break: break-word;
+}
+
+ul li:nth-of-type(4n+1) {
+  background-color: #e74783;
+}
+
+ul li:nth-of-type(4n+2) {
+  background-color: #dce346;
+}
+
+ul li:nth-of-type(4n+3) {
+  background-color: #00afaa;
+}
+
+ul li:nth-of-type(4n+4) {
+  background-color: #f99d25;
+}
+
+input, button {
+  padding: 3px;
+}
+
+.category {
+  background-color: #999;
+  margin: 10px;
+}
+
+.droppable {
+  background: #666;
+}
+
+.drop-hover {
+  background: #ccc;
+}
+
+.ui-draggable-dragging {
+  box-shadow: 5px 5px 5px #666;
+}
+
+h2 {
+  text-align: center;
+  margin: 10px;
+}
+
+li .votes {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 0 0 10px 10px;
+}
+
+#sidebar {
+  float: left;
+  clear: both;
+  border: 4px dotted #999;
+  margin: 10px auto;
+  width: 100%;
+  padding: 1em;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#sidebar img {
+  margin-top: 40px;
+  max-width: 100%;
+}
+
+#myitems, .category ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('//dox4euoyzny9u.cloudfront.net/fonts/lato-light-webfont.eot');
+  src: url('//dox4euoyzny9u.cloudfront.net/fonts/lato-light-webfont.eot?#iefix') format('embedded-opentype'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-light-webfont.woff2') format('woff2'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-light-webfont.woff') format('woff'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-light-webfont.ttf') format('truetype'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-light-webfont.svg#latolight') format('svg');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('//dox4euoyzny9u.cloudfront.net/fonts/lato-lightitalic-webfont.eot');
+  src: url('//dox4euoyzny9u.cloudfront.net/fonts/lato-lightitalic-webfont.eot?#iefix') format('embedded-opentype'), local('Lato Regular'), local('Lato-Regular'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-lightitalic-webfont.woff2') format('woff2'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-lightitalic-webfont.woff') format('woff'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-lightitalic-webfont.ttf') format('truetype'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-lightitalic-webfont.svg#latolight_italic') format('svg');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('//dox4euoyzny9u.cloudfront.net/fonts/lato-regular-webfont.eot');
+  src: url('//dox4euoyzny9u.cloudfront.net/fonts/lato-regular-webfont.eot?#iefix') format('embedded-opentype'), local('Lato Regular'), local('Lato-Regular'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-regular-webfont.woff2') format('woff2'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-regular-webfont.woff') format('woff'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-regular-webfont.ttf') format('truetype'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-regular-webfont.svg#latoregular') format('svg');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('//dox4euoyzny9u.cloudfront.net/fonts/lato-bold-webfont.eot');
+  src: url('//dox4euoyzny9u.cloudfront.net/fonts/lato-bold-webfont.eot?#iefix') format('embedded-opentype'), local('Lato Bold'), local('Lato-Bold'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-bold-webfont.woff2') format('woff2'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-bold-webfont.woff') format('woff'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-bold-webfont.ttf') format('truetype'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-bold-webfont.svg#latobold') format('svg');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('//dox4euoyzny9u.cloudfront.net/fonts/lato-black-webfont.eot');
+  src: url('//dox4euoyzny9u.cloudfront.net/fonts/lato-black-webfont.eot?#iefix') format('embedded-opentype'), local('Lato Black'), local('Lato-Black'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-black-webfont.woff2') format('woff2'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-black-webfont.woff') format('woff'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-black-webfont.ttf') format('truetype'), url('//dox4euoyzny9u.cloudfront.net/fonts/lato-black-webfont.svg#latoblack') format('svg');
+  font-weight: 900;
+  font-style: normal;
+}
